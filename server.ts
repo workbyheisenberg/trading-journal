@@ -68,7 +68,7 @@ async function startServer() {
   // ─────────────────────────────────────────────────────────────
   // ADMIN & LIVE CONTRACT ADDRESS (CA) CONFIGURATION
   // ─────────────────────────────────────────────────────────────
-  let liveContractAddress = process.env.CONTRACT_ADDRESS || 'MumusK9uWJt4h8vQZ3p7vKq2wL9mE5Xy4nB7rP8pump';
+  let liveContractAddress = process.env.CONTRACT_ADDRESS || '0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f';
   let liveTokenSymbol = '$MUMUS';
   let liveMinTokenRequired = 500000;
   let lastUpdatedAt = new Date().toISOString();

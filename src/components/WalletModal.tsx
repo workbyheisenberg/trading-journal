@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useWeb3 } from '../context/Web3Context';
-import { useTheme } from '../context/ThemeContext';
 import { ROBINHOOD_WALLET_DOWNLOAD_URL } from '../services/robinhoodWallet';
 
 export const WalletModal: React.FC = () => {
@@ -25,8 +24,8 @@ export const WalletModal: React.FC = () => {
     formatAddress
   } = useWeb3();
 
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
+  // Wallet modal is always rendered in light mode by design.
+  const isDark = false;
   const [signStatus, setSignStatus] = useState<string | null>(null);
 
   if (!isWalletModalOpen) return null;
@@ -57,7 +56,7 @@ export const WalletModal: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={closeWalletModal}
-          className="absolute inset-0 bg-black/75 backdrop-blur-md"
+          className="absolute inset-0 bg-slate-900/25 backdrop-blur-sm"
         />
 
         {/* Modal Window */}
@@ -118,9 +117,9 @@ export const WalletModal: React.FC = () => {
                   >
                     Holdings · {chainName}
                   </div>
-                  <div className="font-sans-clean font-medium text-lg sm:text-xl tabular-nums text-slate-900 dark:text-white">
+                  <div className="font-sans-clean font-medium text-lg sm:text-xl tabular-nums text-slate-900">
                     {tokenBalance.toLocaleString()}{' '}
-                    <span className="text-xs font-normal text-slate-400 dark:text-white/40">
+                    <span className="text-xs font-normal text-slate-400">
                       ${tokenSymbol}
                     </span>
                   </div>
@@ -226,7 +225,7 @@ export const WalletModal: React.FC = () => {
 
                 {/* Connection Error / Missing Extension Hint */}
                 {connectionError && (
-                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-300 text-[11px] font-sans-clean leading-relaxed">
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-700 text-[11px] font-sans-clean leading-relaxed">
                     <div>{connectionError}</div>
                     <div className="mt-1.5">
                       <a

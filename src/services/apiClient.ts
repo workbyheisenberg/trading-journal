@@ -16,6 +16,27 @@ export interface GraphApiResponse {
   summaryTitle?: string;
   graphTrace: GraphExecutionTrace;
   totalTimeMs: number;
+  engine?: string;
+  usedModel?: boolean;
+  usage?: { input: number; output: number; total: number };
+  modelError?: string | null;
+}
+
+function getAgentSessionId(): string {
+  try {
+    const key = 'mumus_agent_session';
+    let id = sessionStorage.getItem(key);
+    if (!id) {
+      id =
+        typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : `mumus-${Date.now().toString(36)}`;
+      sessionStorage.setItem(key, id);
+    }
+    return id;
+  } catch {
+    return `mumus-${Date.now().toString(36)}`;
+  }
 }
 
 export async function dispatchGraphAgent(
@@ -32,7 +53,8 @@ export async function dispatchGraphAgent(
       body: JSON.stringify({
         input,
         positions,
-        currentPosition
+        currentPosition,
+        sessionId: getAgentSessionId()
       })
     });
 

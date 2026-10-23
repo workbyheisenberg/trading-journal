@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "types": [],
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": [
+    "../worker-configuration.d.ts",
+    "./**/*.ts",
+    "../src/services/graphEngine.ts",
+    "../src/data/trenchData.ts",
+    "../src/types/index.ts"
+  ]
+}

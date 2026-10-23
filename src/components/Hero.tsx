@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { FontOption } from '../types';
 import { GlassButton } from './GlassButton';
+import { Mascot } from './Mascot';
 import { useTheme } from '../context/ThemeContext';
 import { useWeb3 } from '../context/Web3Context';
 import skyBg from '../assets/images/anime_blue_sky_1790189379897.jpg';
@@ -16,11 +17,6 @@ export const Hero: React.FC<HeroProps> = ({ onBeginJourney, fontChoice }) => {
   const isDark = theme === 'dark';
   const { contractAddress, tokenSymbol } = useWeb3();
   const [copied, setCopied] = useState(false);
-
-  // Dynamic slicing for live CA runner
-  const prefixCA = contractAddress.length > 12 ? contractAddress.slice(0, 5) : 'CA';
-  const suffixCA = contractAddress.length > 12 ? contractAddress.slice(-4) : '';
-  const middleCA = contractAddress.length > 12 ? contractAddress.slice(5, -4) : contractAddress;
 
   const serifClass = fontChoice === 'cormorant' 
     ? 'font-cormorant' 
@@ -83,15 +79,15 @@ export const Hero: React.FC<HeroProps> = ({ onBeginJourney, fontChoice }) => {
                 : 'border-slate-900/25 hover:border-slate-900/50 bg-white/60 text-slate-800 shadow-xs'
             }`}
           >
-            {/* Dynamic Prefix */}
-            <span className={`font-mono-code text-[11px] transition-colors ${
-              isDark ? 'text-white/80 group-hover:text-white' : 'text-slate-800 group-hover:text-slate-950 font-medium'
+            {/* Token ticker */}
+            <span className={`font-mono-code text-[11px] font-semibold transition-colors ${
+              isDark ? 'text-white' : 'text-slate-950'
             }`}>
-              {prefixCA}
+              {tokenSymbol}
             </span>
 
-            {/* Seamless Carousel Runner */}
-            <div className="relative overflow-hidden w-24 sm:w-28 h-4 flex items-center">
+            {/* Continuous runner: full contract address, first digit to last */}
+            <div className="relative overflow-hidden w-32 sm:w-44 h-4 flex items-center">
               <motion.div
                 className={`flex whitespace-nowrap font-mono-code text-[11px] transition-colors ${
                   isDark ? 'text-white/80 group-hover:text-white' : 'text-slate-800 group-hover:text-slate-950 font-medium'
@@ -100,22 +96,13 @@ export const Hero: React.FC<HeroProps> = ({ onBeginJourney, fontChoice }) => {
                 transition={{
                   repeat: Infinity,
                   ease: 'linear',
-                  duration: 8,
+                  duration: 12,
                 }}
               >
-                <span>{middleCA}</span>
-                <span>{middleCA}</span>
+                <span>{contractAddress}</span>
+                <span>{contractAddress}</span>
               </motion.div>
             </div>
-
-            {/* Dynamic Suffix */}
-            {suffixCA && (
-              <span className={`font-mono-code text-[11px] transition-colors ${
-                isDark ? 'text-white/80 group-hover:text-white' : 'text-slate-800 group-hover:text-slate-950 font-medium'
-              }`}>
-                {suffixCA}
-              </span>
-            )}
 
             {/* Micro copy icon (replaces copy text) */}
             <span
@@ -184,37 +171,15 @@ export const Hero: React.FC<HeroProps> = ({ onBeginJourney, fontChoice }) => {
           </GlassButton>
         </motion.div>
 
-        {/* Atmospheric cloud silhouettes and lone thinker figure */}
-        <motion.div 
+        {/* Official mascot with subtle cyan aura and gentle cloud-squish float */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-20px' }}
           transition={{ duration: 1.0, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-16 sm:mt-20 relative w-full max-w-md h-44 sm:h-56 flex items-end justify-center pointer-events-none select-none"
+          className="mt-14 sm:mt-16 w-full max-w-md"
         >
-          {/* Cloud layers */}
-          <div 
-            className="absolute -bottom-6 w-full h-32 opacity-40"
-            style={{
-              background: isDark
-                ? 'radial-gradient(ellipse 60% 50% at 50% 80%, rgba(130, 160, 210, 0.3) 0%, rgba(80, 100, 150, 0.1) 60%, transparent 100%)'
-                : 'radial-gradient(ellipse 60% 50% at 50% 80%, rgba(180, 210, 245, 0.5) 0%, rgba(140, 180, 230, 0.2) 60%, transparent 100%)',
-              filter: 'blur(30px)'
-            }}
-          />
-
-          {/* Minimalist meditative figure silhouette */}
-          <div className="relative flex flex-col items-center opacity-70 mb-2">
-            <div className={`w-6 h-6 rounded-full blur-[0.5px] ${isDark ? 'bg-slate-400/30' : 'bg-slate-700/40'}`} />
-            <div className={`w-12 h-14 rounded-t-2xl -mt-1 ${
-              isDark 
-                ? 'bg-gradient-to-b from-slate-400/30 to-slate-900/60' 
-                : 'bg-gradient-to-b from-slate-600/40 to-slate-800/70'
-            }`} />
-            <div className={`w-20 h-4 rounded-full blur-[2px] -mt-1 ${isDark ? 'bg-slate-900/80' : 'bg-slate-800/80'}`} />
-            {/* Glow from terminal/journal */}
-            <div className={`absolute top-7 w-5 h-3 blur-[3px] rounded-sm ${isDark ? 'bg-cyan-200/40' : 'bg-sky-400/60'}`} />
-          </div>
+          <Mascot className="h-48 sm:h-60" imgClassName="h-44 sm:h-56" />
         </motion.div>
       </div>
     </section>

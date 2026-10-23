@@ -202,7 +202,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
             Robinhood Contract & Access Control
           </h1>
           <p className="text-xs sm:text-sm font-sans-clean text-white/50 max-w-2xl leading-relaxed">
-            Manage the active token contract address (CA) or Robinhood identifier and holding threshold. Changes propagate instantly to the landing page carousel and enforce the access gate on the Mumus AI Cognitive Trading Journal.
+            Manage the active Robinhood Chain token contract address (CA, 0x…) and holding threshold. Changes propagate instantly to the landing page carousel and enforce the access gate on the Mumus AI Cognitive Trading Journal.
           </p>
         </div>
 
@@ -285,24 +285,24 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
               Update Contract Address
             </h2>
             <p className="text-xs font-sans-clean text-white/50 leading-relaxed">
-              Enter the new token contract address or Robinhood identifier. When saved, the landing page hero runner, copy action, and token gate verification threshold update in real time.
+              Enter the new Robinhood Chain token contract address (0x…). When saved, the landing page hero runner, copy action, and token gate verification threshold update in real time.
             </p>
           </div>
 
           <form onSubmit={handleSaveCA} className="space-y-6">
             <div>
               <label className="block text-xs font-sans-clean text-white/70 mb-2">
-                New Contract Address / Identifier (CA)
+                New Contract Address (CA)
               </label>
               <input
                 type="text"
                 value={newCA}
                 onChange={(e) => setNewCA(e.target.value)}
-                placeholder="e.g. RH-MUMUS-TOKEN-x9924..."
+                placeholder="e.g. 0xef57...938f"
                 className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/15 text-white placeholder-white/30 font-mono-code text-xs sm:text-sm outline-none focus:border-white/40 focus:bg-white/[0.06] transition-all"
               />
               <p className="text-[11px] font-sans-clean text-white/40 mt-1.5">
-                Must be a valid token contract address or Robinhood identifier.
+                Must be a valid 0x Robinhood Chain token contract address.
               </p>
             </div>
 

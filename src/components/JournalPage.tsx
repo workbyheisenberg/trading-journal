@@ -8,6 +8,8 @@ import {
 } from '../services/agentHarness';
 import { dispatchGraphAgent } from '../services/apiClient';
 import { useWeb3 } from '../context/Web3Context';
+import { Mascot } from './Mascot';
+import { TokenGateModal } from './TokenGateModal';
 
 interface JournalPageProps {
   onBackToHome: () => void;
@@ -126,11 +128,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
   const [positions, setPositions] = useState<TradePosition[]>(INITIAL_CURATED_POSITIONS);
 
   // Expanded Trade Pairs State
-  const [expandedPairs, setExpandedPairs] = useState<Record<string, boolean>>({
-    '$PIPIN / SOL': true,
-    '$CHILL / SOL': false,
-    '$GOAT / SOL': false
-  });
+  const [expandedPairs, setExpandedPairs] = useState<Record<string, boolean>>({});
 
   // Always start with an empty welcoming session by default
   const [sessions, setSessions] = useState<JournalSession[]>(() => [
@@ -157,6 +155,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
   const [inputMessage, setInputMessage] = useState<string>('');
   const [isThinking, setIsThinking] = useState<boolean>(false);
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false);
+  const [isGateModalOpen, setIsGateModalOpen] = useState<boolean>(false);
 
   // Global Robinhood Web3 State & Token Gate
   const {
@@ -242,9 +241,9 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
     const text = (textToSend || inputMessage).trim();
     if (!text || isThinking) return;
 
-    // Enforce Token Gate: user must hold >= 500,000 tokens of the active CA
+    // Token gate: the input is always accessible, the gate is enforced on send
     if (!hasAccess) {
-      openWalletModal();
+      setIsGateModalOpen(true);
       return;
     }
 
@@ -743,6 +742,17 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
                     );
                   })}
 
+                  {/* Empty state — no trades recorded yet */}
+                  {pairGroups.length === 0 && (
+                    <div className="px-3 py-8 text-center select-none">
+                      <div className="text-[11px] font-sans-clean text-slate-400 leading-relaxed">
+                        No trades recorded yet.
+                        <br />
+                        Journal your first trade to build your history.
+                      </div>
+                    </div>
+                  )}
+
                   {/* General Analytical Inquiries & Reviews (e.g. Weekly Summary) */}
                   {generalSessions.length > 0 && (
                     <div className="pt-3 mt-2 border-t border-slate-100">
@@ -924,6 +934,11 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
                ───────────────────────────────────────────────────────────── */
             <div className="flex-1 max-w-2xl w-full mx-auto flex flex-col justify-center items-center py-6 sm:py-8">
               
+              {/* Official mascot above the welcome headline */}
+              <div className="mb-1 sm:mb-2">
+                <Mascot className="h-28 sm:h-32" imgClassName="h-24 sm:h-28" />
+              </div>
+
               {/* Headings */}
               <div className="text-center mb-6 px-2">
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight text-slate-800">
@@ -938,91 +953,8 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
               </div>
 
               {/* ─────────────────────────────────────────────────────────────
-                  AI CHATBOT INPUT OR TOKEN GATE LOCK
+                  AI CHATBOT INPUT (always accessible — token gate checked on send)
                  ───────────────────────────────────────────────────────────── */}
-              {!hasAccess ? (
-                /* Robinhood Token Gate Guard Card: Follows Mumus Brand Aesthetic */
-                <div className="w-full relative rounded-3xl bg-white/85 backdrop-blur-xl border border-slate-200/90 shadow-[0_4px_30px_rgba(0,0,0,0.04)] p-6 sm:p-7 text-center space-y-4">
-                  <div className="w-10 h-10 rounded-full border border-slate-300/80 bg-slate-50 flex items-center justify-center mx-auto text-slate-800 shadow-2xs">
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                  </div>
-
-                  <div className="space-y-1.5 max-w-md mx-auto">
-                    <h3 className="font-editorial text-2xl sm:text-3xl font-normal text-slate-900 tracking-tight">
-                      {!isConnected ? 'Token Gate Protected' : 'Insufficient Token Holdings'}
-                    </h3>
-                    <p className="text-xs font-sans-clean text-slate-600 leading-relaxed">
-                      {!isConnected ? (
-                        <>
-                          Connect a Robinhood account holding at least <strong className="text-slate-900 font-mono-code">{minTokenRequired.toLocaleString()} {tokenSymbol}</strong> from active contract <code className="bg-slate-100 text-slate-800 px-1.5 py-0.5 rounded font-mono-code text-[11px] font-medium">{formatAddress(contractAddress)}</code> to access and chat with Mumus AI Agent.
-                        </>
-                      ) : (
-                        <>
-                          Current holdings: <strong className="text-amber-700 font-mono-code">{tokenBalance.toLocaleString()} {tokenSymbol}</strong>. You require at least <strong className="text-slate-900 font-mono-code">{minTokenRequired.toLocaleString()} tokens</strong> to chat with the agent.
-                        </>
-                      )}
-                    </p>
-                  </div>
-
-                  {/* Clean line progress bar if connected */}
-                  {isConnected && (
-                    <div className="max-w-xs mx-auto space-y-1.5">
-                      <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-amber-500 rounded-full transition-all duration-500"
-                          style={{ width: `${Math.min(100, Math.round((tokenBalance / minTokenRequired) * 100))}%` }}
-                        />
-                      </div>
-                      <div className="flex justify-between text-[11px] text-slate-400 font-mono-code tabular-nums">
-                        <span>{tokenBalance.toLocaleString()}</span>
-                        <span>{minTokenRequired.toLocaleString()} required</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Action Controls */}
-                  <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1">
-                    {!isConnected ? (
-                      <>
-                        <button
-                          type="button"
-                          onClick={openWalletModal}
-                          className="px-5 py-2.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-sans-clean font-medium transition-all shadow-xs cursor-pointer"
-                        >
-                          Connect Robinhood
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => connectDemoWallet('sufficient')}
-                          className="px-4 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 text-xs font-sans-clean font-medium transition-all cursor-pointer shadow-2xs"
-                        >
-                          Whale Demo (1.25M Tokens)
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => setCustomTokenBalance(1250000)}
-                          className="px-5 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-sans-clean font-medium transition-all shadow-xs cursor-pointer"
-                        >
-                          Simulate +1.25M Tokens (Unlock)
-                        </button>
-                        <button
-                          type="button"
-                          onClick={openWalletModal}
-                          className="px-4 py-2.5 rounded-full bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 text-xs font-sans-clean font-medium transition-all cursor-pointer"
-                        >
-                          Manage Wallet
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </div>
-              ) : (
                 <div className="w-full relative px-1 sm:px-0">
                   <div className="w-full relative rounded-2xl bg-transparent border border-slate-300/60 shadow-[0_2px_12px_-3px_rgba(186,230,253,0.35)] transition-all duration-300 hover:shadow-[0_20px_50px_-10px_rgba(186,230,253,0.55),0_10px_25px_-5px_rgba(125,211,252,0.3)] hover:border-sky-300/90 focus-within:shadow-[0_20px_50px_-10px_rgba(186,230,253,0.55),0_10px_25px_-5px_rgba(125,211,252,0.3)] focus-within:border-sky-300/90">
                     
@@ -1091,7 +1023,6 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
                     </div>
                   </div>
                 </div>
-              )}
 
               {/* Quick Sample Prompts for Agent Harness (No backgrounds, no icons) */}
               <div className="w-full mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-left">
@@ -1328,51 +1259,9 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
           )}
         </div>
 
-        {/* Docked Bottom Chatbot Input or Token Gate Barrier (Active Chat Mode) */}
+        {/* Docked Bottom Chatbot Input (Active Chat Mode) */}
         {hasMessages && (
           <div className="shrink-0 p-2.5 sm:p-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] bg-transparent border-t border-black/[0.04]">
-            {!hasAccess ? (
-              <div className="max-w-2xl mx-auto rounded-2xl bg-white/90 backdrop-blur-md border border-slate-200/90 p-3.5 sm:p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div className="flex items-center gap-3 min-w-0 text-center sm:text-left">
-                  <div className="w-8 h-8 rounded-full border border-slate-300/80 bg-slate-50 text-slate-700 flex items-center justify-center shrink-0">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                    </svg>
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-xs font-sans-clean font-semibold text-slate-900">
-                      {!isConnected ? 'Robinhood Account Required' : 'Token Gate Restricted'}
-                    </div>
-                    <div className="text-[11px] font-sans-clean text-slate-500 truncate">
-                      {!isConnected
-                        ? `Hold ≥ ${minTokenRequired.toLocaleString()} tokens of CA: ${formatAddress(contractAddress)}`
-                        : `Holdings: ${tokenBalance.toLocaleString()} / ${minTokenRequired.toLocaleString()} tokens required`}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0">
-                  {!isConnected ? (
-                    <button
-                      type="button"
-                      onClick={openWalletModal}
-                      className="px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-sans-clean font-medium transition-all cursor-pointer shadow-xs"
-                    >
-                      Connect Wallet
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setCustomTokenBalance(1250000)}
-                      className="px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-sans-clean font-medium transition-all cursor-pointer shadow-xs"
-                    >
-                      Simulate 1.25M
-                    </button>
-                  )}
-                </div>
-              </div>
-            ) : (
               <div className="max-w-2xl mx-auto">
                 <div className="rounded-2xl bg-transparent border border-slate-300/60 shadow-[0_2px_12px_-3px_rgba(186,230,253,0.35)] transition-all duration-300 hover:shadow-[0_20px_50px_-10px_rgba(186,230,253,0.55),0_10px_25px_-5px_rgba(125,211,252,0.3)] hover:border-sky-300/90 focus-within:shadow-[0_20px_50px_-10px_rgba(186,230,253,0.55),0_10px_25px_-5px_rgba(125,211,252,0.3)] focus-within:border-sky-300/90">
                   <div className="px-3 sm:px-3.5 pt-2.5 sm:pt-3 pb-1">
@@ -1432,11 +1321,13 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
                   </div>
                 </div>
               </div>
-            )}
           </div>
         )}
 
       </main>
+
+      {/* Token gate notice (light mode) — shown when sending without enough $MUMUS */}
+      <TokenGateModal isOpen={isGateModalOpen} onClose={() => setIsGateModalOpen(false)} />
     </div>
   );
 };

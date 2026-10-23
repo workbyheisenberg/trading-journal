@@ -42,7 +42,7 @@ export interface Web3ContextType {
   formatAddress: (addr?: string | null) => string;
 }
 
-const DEFAULT_CA = 'RH-MUMUS-TOKEN-x9924';
+const DEFAULT_CA = '0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f';
 const DEFAULT_SYMBOL = '$MUMUS';
 const DEFAULT_MIN_TOKEN = 500000;
 

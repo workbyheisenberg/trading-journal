@@ -62,6 +62,28 @@ export const ROBINHOOD_WALLET_DOWNLOAD_URL = 'https://wallet.robinhood.com';
 export const ROBINHOOD_CHROME_STORE_URL =
   'https://chromewebstore.google.com/detail/robinhood-wallet/bhhhlbepdkbapadjdnnojkbgioiodbic';
 
+/**
+ * Builds a block-explorer URL for the active token contract address.
+ * EVM addresses use the chain explorer, Solana-style addresses use Solscan,
+ * otherwise falls back to a DexScreener search.
+ */
+export function getTokenExplorerUrl(contractAddress: string, chainId?: string | null): string {
+  const ca = (contractAddress || '').trim();
+  if (!ca) return 'https://solscan.io';
+
+  if (/^0x[a-fA-F0-9]{40}$/.test(ca)) {
+    const chain = chainId ? ROBINHOOD_SUPPORTED_CHAINS[chainId.toLowerCase()] : undefined;
+    const base = chain?.explorerUrl || 'https://etherscan.io';
+    return `${base}/token/${ca}`;
+  }
+
+  if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(ca)) {
+    return `https://solscan.io/token/${ca}`;
+  }
+
+  return `https://dexscreener.com/search?q=${encodeURIComponent(ca)}`;
+}
+
 // In-memory registry of EIP-6963 discovered providers
 let announcedRobinhoodProvider: any = null;
 let announcedProviderInfo: EIP6963ProviderInfo | null = null;
