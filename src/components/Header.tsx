@@ -67,7 +67,7 @@ export const Header: React.FC<HeaderProps> = ({
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md select-none transition-colors duration-300 ${
         isDark 
-          ? 'bg-white/10 border-b border-white/15' 
+          ? 'bg-[#050608]/40 border-b border-white/15' 
           : 'bg-white/80 border-b border-slate-200/80 shadow-xs'
       }`}
     >
@@ -81,7 +81,7 @@ export const Header: React.FC<HeaderProps> = ({
               isDark ? 'text-white' : 'text-slate-900'
             }`}
           >
-            <span>Mumus</span>
+            <span>Nako</span>
             <span className="text-[10px] sm:text-[11px] font-sans font-light ml-0.5 opacity-80 group-hover:opacity-100 transition-opacity">®</span>
           </button>
         </div>

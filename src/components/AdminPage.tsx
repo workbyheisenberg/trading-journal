@@ -17,7 +17,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
   } = useWeb3();
 
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return sessionStorage.getItem('mumus_admin_auth') === 'true';
+    return sessionStorage.getItem('nako_admin_auth') === 'true';
   });
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [errorMsg, setErrorMsg] = useState<string>('');
@@ -32,7 +32,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
     e.preventDefault();
     if (passwordInput === 'farmerpemula') {
       setIsAuthenticated(true);
-      sessionStorage.setItem('mumus_admin_auth', 'true');
+      sessionStorage.setItem('nako_admin_auth', 'true');
       setErrorMsg('');
     } else {
       setErrorMsg('Incorrect authentication password.');
@@ -41,7 +41,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem('mumus_admin_auth');
+    sessionStorage.removeItem('nako_admin_auth');
     setPasswordInput('');
   };
 
@@ -56,7 +56,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
     setIsSaving(true);
     setErrorMsg('');
     try {
-      const ok = await updateContractAddress(cleanCA, newSymbol.trim() || '$MUMUS', newMinTokens || 500000);
+      const ok = await updateContractAddress(cleanCA, newSymbol.trim() || '$NAKO', newMinTokens || 500000);
       if (ok) {
         setSuccessMsg('Contract Address updated live across the landing page and chat gate.');
         setTimeout(() => setSuccessMsg(''), 4500);
@@ -86,7 +86,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
           {/* Brand Wordmark */}
           <div className="space-y-1.5">
             <div className="font-editorial text-3xl font-normal tracking-tight text-white flex items-baseline justify-center">
-              <span>Mumus</span>
+              <span>Nako</span>
               <span className="text-[10px] font-sans font-light ml-0.5 opacity-70">®</span>
             </div>
             <div className="text-xs font-sans-clean text-white/45">
@@ -142,7 +142,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
   }
 
   // ─────────────────────────────────────────────────────────────
-  // 2. AUTHENTICATED ADMIN DASHBOARD (MUMUS DESIGN SYSTEM)
+  // 2. AUTHENTICATED ADMIN DASHBOARD (NAKO DESIGN SYSTEM)
   // ─────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-[#050608] text-[#e8eaee] flex flex-col selection:bg-white/20">
@@ -157,7 +157,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
               onClick={onBackToHome}
               className="font-editorial text-2xl font-normal tracking-tight text-white flex items-baseline cursor-pointer"
             >
-              <span>Mumus</span>
+              <span>Nako</span>
               <span className="text-[10px] font-sans font-light ml-0.5 opacity-70">®</span>
             </button>
             <span className="text-white/25">/</span>
@@ -202,7 +202,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
             Robinhood Contract & Access Control
           </h1>
           <p className="text-xs sm:text-sm font-sans-clean text-white/50 max-w-2xl leading-relaxed">
-            Manage the active Robinhood Chain token contract address (CA, 0x…) and holding threshold. Changes propagate instantly to the landing page carousel and enforce the access gate on the Mumus AI Cognitive Trading Journal.
+            Manage the active Robinhood Chain token contract address (CA, 0x…) and holding threshold. Changes propagate instantly to the landing page carousel and enforce the access gate on the Nako AI Cognitive Trading Journal.
           </p>
         </div>
 
@@ -315,7 +315,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
                   type="text"
                   value={newSymbol}
                   onChange={(e) => setNewSymbol(e.target.value)}
-                  placeholder="$MUMUS"
+                  placeholder="$NAKO"
                   className="w-full px-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-white text-xs sm:text-sm font-sans-clean outline-none focus:border-white/40 transition-all"
                 />
               </div>
@@ -381,8 +381,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToHome, onGoToJourna
               <button
                 type="button"
                 onClick={() => {
-                  setNewCA('MumusK9uWJt4h8vQZ3p7vKq2wL9mE5Xy4nB7rP8pump');
-                  setNewSymbol('$MUMUS');
+                  setNewCA('NakoK9uWJt4h8vQZ3p7vKq2wL9mE5Xy4nB7rP8pump');
+                  setNewSymbol('$NAKO');
                   setNewMinTokens(500000);
                 }}
                 className="px-5 py-2.5 rounded-full border border-white/15 bg-white/[0.03] hover:bg-white/[0.08] text-white/60 hover:text-white text-xs font-sans-clean transition-colors cursor-pointer"

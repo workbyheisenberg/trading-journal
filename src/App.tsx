@@ -79,7 +79,7 @@ function MainApp() {
   };
 
   const handlePreorder = () => {
-    showToast('Early Alpha Reservation received. Welcome to the Mumus Cohort.');
+    showToast('Early Alpha Reservation received. Welcome to the Nako Cohort.');
   };
 
   const handleScheduleTour = () => {

@@ -275,7 +275,7 @@ ${positions.map((p, idx) => `${idx + 1}. **${p.pairTicker}** (${p.status}) — $
 1. **Rule Adherence:** When you plan stops in advance (e.g. ${bestTrade.token}), your profit factor exceeds 3.0x.
 2. **Tilt Prevention:** Chasing 1-minute breakout candles without pullback invalidation is your only red leak this week.
 
-**Mumus Mandate:** Maintain your 15% trailing stop rule. Prohibit any market buys when dopamine or FOMO levels surge after watching green candles on Twitter.`;
+**Nako Mandate:** Maintain your 15% trailing stop rule. Prohibit any market buys when dopamine or FOMO levels surge after watching green candles on Twitter.`;
 
     const quickActionChips = [
       { label: '📝 Record / Journal a Trade', prompt: 'assist to record or journaling a trade' },
@@ -354,7 +354,7 @@ ${positions.map((p, idx) => `${idx + 1}. **${p.pairTicker}** (${p.status}) — $
 
 **Action Recorded: ${actionType.replace('_', ' ')}**
 
-The Mumus harness has registered your update into persistent trade memory:
+The Nako harness has registered your update into persistent trade memory:
 
 * **Position Status:** **${updatedStatus}**
 * **Remaining Capital at Risk:** **${updatedPos.remainingSizeSol} SOL** (from ${updatedPos.initialSizeSol} SOL initial)
@@ -472,7 +472,7 @@ Position successfully indexed into your **${pairTicker}** trade history:
   return {
     intent: 'GENERAL_CHAT',
     reasoningTime,
-    replyContent: `### Mumus Cognitive Assistant
+    replyContent: `### Nako Cognitive Assistant
 
 I am observing your trade psychology and execution ledger.
 

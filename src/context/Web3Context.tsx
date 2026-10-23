@@ -43,35 +43,35 @@ export interface Web3ContextType {
 }
 
 const DEFAULT_CA = '0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f';
-const DEFAULT_SYMBOL = '$MUMUS';
+const DEFAULT_SYMBOL = '$NAKO';
 const DEFAULT_MIN_TOKEN = 500000;
 
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
 export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [contractAddress, setContractAddress] = useState<string>(() => {
-    return localStorage.getItem('mumus_ca') || DEFAULT_CA;
+    return localStorage.getItem('nako_ca') || DEFAULT_CA;
   });
   const [tokenSymbol, setTokenSymbol] = useState<string>(() => {
-    return localStorage.getItem('mumus_token_symbol') || DEFAULT_SYMBOL;
+    return localStorage.getItem('nako_token_symbol') || DEFAULT_SYMBOL;
   });
   const [minTokenRequired, setMinTokenRequired] = useState<number>(() => {
-    const saved = localStorage.getItem('mumus_min_token');
+    const saved = localStorage.getItem('nako_min_token');
     return saved ? parseInt(saved, 10) : DEFAULT_MIN_TOKEN;
   });
 
   const [walletAddress, setWalletAddress] = useState<string | null>(() => {
-    return localStorage.getItem('mumus_wallet_address') || null;
+    return localStorage.getItem('nako_wallet_address') || null;
   });
   const [walletProvider, setWalletProvider] = useState<'robinhood' | 'demo' | null>(() => {
-    return (localStorage.getItem('mumus_wallet_provider') as any) || null;
+    return (localStorage.getItem('nako_wallet_provider') as any) || null;
   });
   const [solBalance, setSolBalance] = useState<string>('$24,850.00 USD');
   const [nativeBalance, setNativeBalance] = useState<string>('0.00 ETH');
   const [chainId, setChainId] = useState<string | null>(null);
 
   const [tokenBalance, setTokenBalance] = useState<number>(() => {
-    const saved = localStorage.getItem('mumus_token_balance');
+    const saved = localStorage.getItem('nako_token_balance');
     return saved ? parseInt(saved, 10) : 1250000; // Default demo holder has 1.25M tokens
   });
 
@@ -103,8 +103,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     }, 500);
 
     // If user was previously connected with a real provider, resume session silently
-    const savedAddress = localStorage.getItem('mumus_wallet_address');
-    const savedProvider = localStorage.getItem('mumus_wallet_provider');
+    const savedAddress = localStorage.getItem('nako_wallet_address');
+    const savedProvider = localStorage.getItem('nako_wallet_provider');
 
     if (savedAddress && savedProvider === 'robinhood' && prov) {
       getRobinhoodAccounts(prov).then(async (accounts) => {
@@ -130,14 +130,14 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       .then((data) => {
         if (data && data.contractAddress) {
           setContractAddress(data.contractAddress);
-          localStorage.setItem('mumus_ca', data.contractAddress);
+          localStorage.setItem('nako_ca', data.contractAddress);
           if (data.tokenSymbol) {
             setTokenSymbol(data.tokenSymbol);
-            localStorage.setItem('mumus_token_symbol', data.tokenSymbol);
+            localStorage.setItem('nako_token_symbol', data.tokenSymbol);
           }
           if (data.minTokenRequired) {
             setMinTokenRequired(data.minTokenRequired);
-            localStorage.setItem('mumus_min_token', data.minTokenRequired.toString());
+            localStorage.setItem('nako_min_token', data.minTokenRequired.toString());
           }
         }
       })
@@ -219,9 +219,9 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsRobinhoodInstalled(true);
       setIsSpecificRobinhood(isRh);
 
-      localStorage.setItem('mumus_wallet_address', activeAccount);
-      localStorage.setItem('mumus_wallet_provider', 'robinhood');
-      localStorage.setItem('mumus_token_balance', holderBalance.toString());
+      localStorage.setItem('nako_wallet_address', activeAccount);
+      localStorage.setItem('nako_wallet_provider', 'robinhood');
+      localStorage.setItem('nako_token_balance', holderBalance.toString());
 
       // 4. Attach real-time lifecycle event listeners
       if (unsubscribeEventsRef.current) {
@@ -235,7 +235,7 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
           } else {
             const nextAcc = newAccounts[0];
             setWalletAddress(nextAcc);
-            localStorage.setItem('mumus_wallet_address', nextAcc);
+            localStorage.setItem('nako_wallet_address', nextAcc);
             getRobinhoodNativeBalance(provider, nextAcc).then(setNativeBalance);
           }
         },
@@ -282,9 +282,9 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       setSolBalance(cash);
       setTokenBalance(balance);
 
-      localStorage.setItem('mumus_wallet_address', pubkey);
-      localStorage.setItem('mumus_wallet_provider', 'demo');
-      localStorage.setItem('mumus_token_balance', balance.toString());
+      localStorage.setItem('nako_wallet_address', pubkey);
+      localStorage.setItem('nako_wallet_provider', 'demo');
+      localStorage.setItem('nako_token_balance', balance.toString());
 
       setIsConnecting(false);
       setIsWalletModalOpen(false);
@@ -301,8 +301,8 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     setChainId(null);
     setNativeBalance('0.00 ETH');
     setConnectionError(null);
-    localStorage.removeItem('mumus_wallet_address');
-    localStorage.removeItem('mumus_wallet_provider');
+    localStorage.removeItem('nako_wallet_address');
+    localStorage.removeItem('nako_wallet_provider');
   }, []);
 
   /**
@@ -316,7 +316,7 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     try {
-      const message = `Verify wallet ownership for Mumus Cognitive Trading Journal.\nAddress: ${walletAddress}\nTimestamp: ${Date.now()}`;
+      const message = `Verify wallet ownership for Nako Cognitive Trading Journal.\nAddress: ${walletAddress}\nTimestamp: ${Date.now()}`;
       const sig = await signRobinhoodAuthMessage(provider, walletAddress, message);
       return sig;
     } catch (err: any) {
@@ -327,12 +327,12 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const setCustomTokenBalance = useCallback((amount: number) => {
     setTokenBalance(amount);
-    localStorage.setItem('mumus_token_balance', amount.toString());
+    localStorage.setItem('nako_token_balance', amount.toString());
   }, []);
 
   // Update Contract Address Live and persist to backend
   const updateContractAddress = useCallback(
-    async (newCA: string, symbol = '$MUMUS', minTokens = 500000): Promise<boolean> => {
+    async (newCA: string, symbol = '$NAKO', minTokens = 500000): Promise<boolean> => {
       const cleanCA = newCA.trim();
       if (!cleanCA) return false;
 
@@ -340,9 +340,9 @@ export const Web3Provider: React.FC<{ children: React.ReactNode }> = ({ children
       setTokenSymbol(symbol);
       setMinTokenRequired(minTokens);
 
-      localStorage.setItem('mumus_ca', cleanCA);
-      localStorage.setItem('mumus_token_symbol', symbol);
-      localStorage.setItem('mumus_min_token', minTokens.toString());
+      localStorage.setItem('nako_ca', cleanCA);
+      localStorage.setItem('nako_token_symbol', symbol);
+      localStorage.setItem('nako_min_token', minTokens.toString());
 
       try {
         await fetch('/api/admin/ca', {

@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "mumus-trading-journal",
+  "name": "nako-trading-journal",
   "main": "worker/index.ts",
   "compatibility_date": "2026-09-24",
   "compatibility_flags": ["nodejs_compat"],
@@ -22,12 +22,12 @@
   },
   "vars": {
     "CONTRACT_ADDRESS": "0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f",
-    "AI_MODEL": "muse-spark-1.3-contributor",
+    "AI_MODEL": "kimi-k3.1-pro",
     "AI_BASE_URL": "https://opencode.ai/zen/go/v1"
   },
   "kv_namespaces": [
     {
-      "binding": "MUMUS_CONFIG",
+      "binding": "NAKO_CONFIG",
       "id": "9f292aab50924ddeab5baab8116ab239"
     }
   ]

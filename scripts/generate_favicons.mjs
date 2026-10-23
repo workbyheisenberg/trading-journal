@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const SRC = path.resolve('public/mumus.png');
+const SRC = path.resolve('public/nako.png');
 const OUT = path.resolve('public');
 
 async function squareIcon(size, file, padding = 0.06) {

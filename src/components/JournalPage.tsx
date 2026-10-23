@@ -493,7 +493,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
                     title="Return to homepage"
                   >
                     <span className="font-editorial text-2xl font-normal text-slate-900 tracking-tight group-hover:text-indigo-600 transition-colors">
-                      Mumus
+                      Nako
                     </span>
                     <span className="text-[10px] font-sans font-light text-slate-400">®</span>
                   </div>
@@ -854,7 +854,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
          ───────────────────────────────────────────────────────────── */}
       <main className="flex-1 flex flex-col h-full min-w-0 relative overflow-hidden animate-cyan-white-flow">
         
-        {/* Top Header: Responsive buttons, Static "powered by Muse 1.3", "+ New Trade" */}
+        {/* Top Header: Responsive buttons, Static "powered by Kimi K3.1", "+ New Trade" */}
         <header className="h-14 px-3 sm:px-6 flex items-center justify-between shrink-0 bg-transparent z-10 border-b border-black/[0.04]">
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Mobile Hamburger Toggle Button */}
@@ -887,13 +887,13 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
               </button>
             )}
 
-            {/* Static "powered by Muse 1.3" */}
+            {/* Static "powered by Kimi K3.1" */}
             <div className="flex items-baseline gap-1 sm:gap-1.5 select-none">
               <span className="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-400 font-sans-clean font-medium">
                 powered by
               </span>
               <span className="font-editorial text-base sm:text-lg text-slate-900 tracking-tight leading-none">
-                Muse 1.3
+                Kimi K3.1
               </span>
             </div>
           </div>
@@ -1326,7 +1326,7 @@ export const JournalPage: React.FC<JournalPageProps> = ({ onBackToHome, onOpenAd
 
       </main>
 
-      {/* Token gate notice (light mode) — shown when sending without enough $MUMUS */}
+      {/* Token gate notice (light mode) — shown when sending without enough $NAKO */}
       <TokenGateModal isOpen={isGateModalOpen} onClose={() => setIsGateModalOpen(false)} />
     </div>
   );

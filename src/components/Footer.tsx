@@ -134,7 +134,7 @@ export const Footer: React.FC<FooterProps> = ({ fontChoice, onOpenTerminal, onNa
           <div className={`${serifClass} text-xl font-normal tracking-tight flex items-baseline select-none transition-colors duration-300 ${
             isDark ? 'text-white/90' : 'text-slate-900'
           }`}>
-            <span>Mumus</span>
+            <span>Nako</span>
             <span className="text-[9px] font-sans font-light ml-0.5 opacity-70">®</span>
           </div>
 

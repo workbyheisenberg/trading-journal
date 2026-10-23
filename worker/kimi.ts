@@ -9,9 +9,9 @@ const INTENTS = [
   'GENERAL_CHAT'
 ] as const;
 
-export type MuseIntent = (typeof INTENTS)[number];
+export type KimiIntent = (typeof INTENTS)[number];
 
-export interface MuseCognitive {
+export interface KimiCognitive {
   psychologicalState: string;
   convictionScore: number;
   tiltScore: number;
@@ -19,14 +19,14 @@ export interface MuseCognitive {
   mandate: string;
 }
 
-export interface MuseResult {
-  intent: MuseIntent;
+export interface KimiResult {
+  intent: KimiIntent;
   confidence: number;
   replyContent: string;
   summaryTitle?: string;
   quickActionChips: { label: string; prompt: string }[];
   extractedTrade?: TrenchTradeMessage;
-  cognitiveAnalysis?: MuseCognitive;
+  cognitiveAnalysis?: KimiCognitive;
   usage?: { input: number; output: number; total: number };
   model: string;
   latencyMs: number;
@@ -52,7 +52,7 @@ const PSYCH_STATES: TrenchTradeMessage['psychologicalState'][] = [
 const CHAINS: TrenchTradeMessage['chain'][] = ['Robinhood', 'Solana', 'Base', 'Ethereum'];
 
 const SYSTEM_INSTRUCTIONS = [
-  'You are Mumus, an elite crypto trench-trading journal AI. You parse degen trade messages,',
+  'You are Nako, an elite crypto trench-trading journal AI. You parse degen trade messages,',
   'classify intent, extract structured trade data, and write brutally honest cognitive audits.',
   '',
   'Respond with ONLY one valid JSON object. No markdown fences, no prose outside JSON.',
@@ -183,7 +183,7 @@ function normalizeEnum<T extends string>(
   return (partial ?? fallback) as T;
 }
 
-function normalizeIntent(raw: unknown, fallback: MuseIntent): MuseIntent {
+function normalizeIntent(raw: unknown, fallback: KimiIntent): KimiIntent {
   const s = asString(raw).trim().toUpperCase().replace(/[\s-]+/g, '_');
   return INTENTS.find((i) => i === s) ?? fallback;
 }
@@ -208,11 +208,11 @@ function normalizeTrade(raw: unknown): TrenchTradeMessage | undefined {
     pnlSol: asNumber(r.pnlSol, 0),
     pnlPercentage: asNumber(r.pnlPercentage, 0),
     tags: tags.length ? tags : ['Journaled'],
-    keyMistakeOrEdge: asString(r.keyMistakeOrEdge, 'Journaled via Mumus AI.')
+    keyMistakeOrEdge: asString(r.keyMistakeOrEdge, 'Journaled via Nako AI.')
   };
 }
 
-function normalizeCognitive(raw: unknown): MuseCognitive | undefined {
+function normalizeCognitive(raw: unknown): KimiCognitive | undefined {
   if (!raw || typeof raw !== 'object') return undefined;
   const r = raw as Record<string, unknown>;
   return {
@@ -257,7 +257,7 @@ function makeBaseState(
   currentPosition: TradePosition | null
 ): GraphState {
   return {
-    traceId: `muse-${Date.now().toString(36)}`,
+    traceId: `kimi-${Date.now().toString(36)}`,
     timestamp: Date.now(),
     input,
     positions,
@@ -276,8 +276,8 @@ function makeBaseState(
   };
 }
 
-export interface MuseInvocation {
-  result: MuseResult;
+export interface KimiInvocation {
+  result: KimiResult;
   newPosition?: TradePosition;
 }
 
@@ -293,20 +293,20 @@ function readUsage(data: unknown): { input: number; output: number; total: numbe
   };
 }
 
-export async function runMuseAgent(
+export async function runKimiAgent(
   env: Env,
   input: string,
   positions: TradePosition[],
   currentPosition: TradePosition | null,
   sessionId: string,
-  baselineIntent: MuseIntent,
+  baselineIntent: KimiIntent,
   baselineNewPosition?: TradePosition
-): Promise<MuseInvocation> {
+): Promise<KimiInvocation> {
   const apiKey = env.OPENCODE_API_KEY;
   if (!apiKey) throw new Error('OPENCODE_API_KEY is not configured');
 
   const baseUrl = env.AI_BASE_URL || 'https://opencode.ai/zen/go/v1';
-  const model = env.AI_MODEL || 'muse-spark-1.3-contributor';
+  const model = env.AI_MODEL || 'kimi-k3.1-pro';
 
   const context = {
     userMessage: input,
@@ -334,7 +334,7 @@ export async function runMuseAgent(
     headers: {
       authorization: `Bearer ${apiKey}`,
       'content-type': 'application/json',
-      'user-agent': 'mumus-trading-journal/1.0',
+      'user-agent': 'nako-trading-journal/1.0',
       'x-opencode-session': sessionId,
       accept: 'application/json'
     },
@@ -348,13 +348,13 @@ export async function runMuseAgent(
 
   if (!res.ok) {
     const detail = await res.text();
-    throw new Error(`Muse API HTTP ${res.status}: ${detail.slice(0, 300)}`);
+    throw new Error(`Kimi API HTTP ${res.status}: ${detail.slice(0, 300)}`);
   }
 
   const data: unknown = await res.json();
   const text = extractOutputText(data);
   const parsed = extractJsonObject(text);
-  if (!parsed) throw new Error('Muse API returned no parseable JSON');
+  if (!parsed) throw new Error('Kimi API returned no parseable JSON');
 
   const intent = normalizeIntent(parsed.intent, baselineIntent);
   const trade = normalizeTrade(parsed.extractedTrade);
@@ -375,7 +375,7 @@ export async function runMuseAgent(
     newPosition = baselineNewPosition;
   }
 
-  const result: MuseResult = {
+  const result: KimiResult = {
     intent,
     confidence: clamp(asNumber(parsed.confidence, 0.9), 0, 1),
     replyContent: asString(parsed.replyContent).trim(),

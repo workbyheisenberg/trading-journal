@@ -85,7 +85,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onExploreFlow, fontCho
             <p className={`mt-4 text-xs sm:text-sm font-sans-clean leading-relaxed max-w-md transition-colors duration-300 ${
               isDark ? 'text-white/65' : 'text-slate-600'
             }`}>
-              Most trenchers lose not to bad charts, but to undisciplined minds. Mumus turns your raw trade reflections into instant clarity—logging setups, catching FOMO before it spreads, and keeping your ego in check.
+              Most trenchers lose not to bad charts, but to undisciplined minds. Nako turns your raw trade reflections into instant clarity—logging setups, catching FOMO before it spreads, and keeping your ego in check.
             </p>
 
             {/* Simple Glassmorphic Tag Pills */}
@@ -232,7 +232,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onExploreFlow, fontCho
               </p>
             </div>
 
-            {/* Mumus Real-Time Classification Output */}
+            {/* Nako Real-Time Classification Output */}
             <div className={`space-y-3 transition-opacity duration-200 ${isClassifying ? 'opacity-30' : 'opacity-100'}`}>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 <div className={`border rounded-lg p-2.5 ${
@@ -270,10 +270,10 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onExploreFlow, fontCho
                     Conviction Score
                   </div>
                   <div className="text-xs font-sans-clean font-semibold mt-0.5 flex items-center gap-1.5">
-                    <span className={`font-mumus-num font-bold text-sm ${isDark ? 'text-amber-300' : 'text-amber-600'}`}>
+                    <span className={`font-nako-num font-bold text-sm ${isDark ? 'text-amber-300' : 'text-amber-600'}`}>
                       {activeMessage.convictionScore} / 10
                     </span>
-                    <span className={`text-xs font-mumus-num font-bold ${isDark ? 'text-white/70' : 'text-slate-600'}`}>
+                    <span className={`text-xs font-nako-num font-bold ${isDark ? 'text-white/70' : 'text-slate-600'}`}>
                       ({activeMessage.pnlPercentage > 0 ? `+${activeMessage.pnlPercentage}%` : `${activeMessage.pnlPercentage}%`})
                     </span>
                   </div>

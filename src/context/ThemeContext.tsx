@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('mumus-theme');
+      const saved = localStorage.getItem('nako-theme');
       if (saved === 'light' || saved === 'dark') return saved;
       // Default to dark as per original aesthetic
       return 'dark';
@@ -23,7 +23,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    localStorage.setItem('mumus-theme', theme);
+    localStorage.setItem('nako-theme', theme);
     const root = document.documentElement;
     if (theme === 'light') {
       root.classList.remove('dark');

@@ -106,9 +106,9 @@ export const WalletModal: React.FC = () => {
 
           <div className="p-6">
             {isConnected ? (
-              /* Ultra-simplified Connected State: MUMUS amount, verification badge, disconnect */
+              /* Ultra-simplified Connected State: NAKO amount, verification badge, disconnect */
               <div className="space-y-5 text-center">
-                {/* 1. Amount of MUMUS with small Pretendard font */}
+                {/* 1. Amount of NAKO with small Pretendard font */}
                 <div className="space-y-1">
                   <div
                     className={`text-[10px] font-sans-clean font-semibold uppercase tracking-wider ${
@@ -250,7 +250,7 @@ export const WalletModal: React.FC = () => {
                       : 'border-slate-200 text-slate-500 hover:text-slate-800 hover:bg-slate-50'
                   }`}
                 >
-                  Demo Account (1,250,000 $MUMUS)
+                  Demo Account (1,250,000 $NAKO)
                 </button>
               </div>
             )}

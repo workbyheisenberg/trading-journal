@@ -1,5 +1,5 @@
 {
-  "name": "Mumus - AI Journal Trading & Trench Intelligence",
+  "name": "Nako - AI Journal Trading & Trench Intelligence",
   "description": "AI agent specializing in journal trading, degen context parsing, message classification, and performance analytics for trench trading.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

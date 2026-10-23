@@ -451,7 +451,7 @@ ${state.positions.map((p, idx) => `${idx + 1}. **${p.pairTicker}** (${p.status})
 1. **Rule Adherence:** When you plan stops in advance (e.g. ${bestTrade.token}), your profit factor exceeds 3.0x.
 2. **Tilt Prevention:** Chasing 1-minute breakout candles without pullback invalidation is your only red leak this week.
 
-**Mumus Mandate:** Maintain your 15% trailing stop rule. Prohibit any market buys when dopamine or FOMO levels surge after watching green candles on Twitter.`;
+**Nako Mandate:** Maintain your 15% trailing stop rule. Prohibit any market buys when dopamine or FOMO levels surge after watching green candles on Twitter.`;
 
   const quickActionChips = [
     { label: '📝 Record / Journal a Trade', prompt: 'assist to record or journaling a trade' },
@@ -557,7 +557,7 @@ Position successfully indexed into your **${pos.pairTicker}** trade history:
 
 **Action Recorded into Trade Graph**
 
-The Mumus graph harness has registered your update into persistent trade memory:
+The Nako graph harness has registered your update into persistent trade memory:
 
 * **Position Status:** **${pos.status}**
 * **Remaining Capital at Risk:** **${pos.remainingSizeSol} SOL** (from ${pos.initialSizeSol} SOL initial)
@@ -573,7 +573,7 @@ Securing partial profit locks your mathematical expectancy. Keeping a runner eli
     ];
   } else {
     // GENERAL_CHAT
-    replyContent = `### Mumus Cognitive Assistant
+    replyContent = `### Nako Cognitive Assistant
 
 I am observing your trade psychology and execution ledger through our graph-engineered agent pipeline.
 

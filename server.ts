@@ -21,7 +21,7 @@ async function startServer() {
   app.get('/api/health', (_req, res) => {
     res.json({
       status: 'ok',
-      engine: 'Mumus Graph Engineering Engine v2.0',
+      engine: 'Nako Graph Engineering Engine v2.0',
       uptime: process.uptime(),
       timestamp: new Date().toISOString()
     });
@@ -69,7 +69,7 @@ async function startServer() {
   // ADMIN & LIVE CONTRACT ADDRESS (CA) CONFIGURATION
   // ─────────────────────────────────────────────────────────────
   let liveContractAddress = process.env.CONTRACT_ADDRESS || '0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f';
-  let liveTokenSymbol = '$MUMUS';
+  let liveTokenSymbol = '$NAKO';
   let liveMinTokenRequired = 500000;
   let lastUpdatedAt = new Date().toISOString();
 
@@ -145,7 +145,7 @@ async function startServer() {
   }
 
   app.listen(Number(PORT), '0.0.0.0', () => {
-    console.log(`[Mumus Server] Graph Engineering backend running at http://0.0.0.0:${PORT}`);
+    console.log(`[Nako Server] Graph Engineering backend running at http://0.0.0.0:${PORT}`);
   });
 }
 

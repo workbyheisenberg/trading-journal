@@ -8,7 +8,7 @@ interface MascotProps {
 }
 
 /**
- * Mumus — official mascot.
+ * Nako — official mascot.
  * Renders the mascot with a subtle cyan glowing contour and a slow,
  * always-running "cloud squish" float (gentle up/down + soft scale).
  */
@@ -29,8 +29,8 @@ export const Mascot: React.FC<MascotProps> = ({ className = '', imgClassName = '
       )}
 
       <motion.img
-        src="/mumus.png"
-        alt="Mumus, the official trench trading mascot"
+        src="/nako.png"
+        alt="Nako, the official trench trading mascot"
         draggable={false}
         className={`relative w-auto object-contain ${imgClassName}`}
         style={{

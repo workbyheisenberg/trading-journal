@@ -65,7 +65,7 @@ export const TrenchModal: React.FC<TrenchModalProps> = ({
               <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
             </div>
             <span className={`font-editorial text-xl font-normal ml-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              Mumus Terminal
+              Nako Terminal
             </span>
             <span className={`text-[10px] font-sans-clean font-medium px-2 py-0.5 rounded ${
               isDark ? 'bg-white/10 text-white/70' : 'bg-slate-200/80 text-slate-700'
@@ -203,7 +203,7 @@ export const TrenchModal: React.FC<TrenchModalProps> = ({
                   isDark ? 'border-white/10' : 'border-slate-200'
                 }`}>
                   <span className={`text-xs font-sans-clean uppercase font-medium ${isDark ? 'text-white/50' : 'text-slate-500'}`}>
-                    Mumus Cognitive Audit
+                    Nako Cognitive Audit
                   </span>
                   <span className="text-xs font-sans-clean text-emerald-500 font-semibold">
                     Confidence: 98.4%

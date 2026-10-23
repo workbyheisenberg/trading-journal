@@ -1,8 +1,8 @@
 import { executeAgentGraph, toGraphTrace } from '../src/services/graphEngine.ts';
-import { runMuseAgent, type MuseIntent } from './muse.ts';
+import { runKimiAgent, type KimiIntent } from './kimi.ts';
 
 const DEFAULT_CA = '0xef5749726f8ea6c45bc3d931fd4af8aa8d8d938f';
-const DEFAULT_SYMBOL = '$MUMUS';
+const DEFAULT_SYMBOL = '$NAKO';
 const DEFAULT_MIN_TOKEN = 500000;
 const CA_KEY = 'live_ca';
 
@@ -31,7 +31,7 @@ async function timingSafeEqual(provided: string, expected: string): Promise<bool
 
 async function getCaConfig(env: Env): Promise<CaConfig> {
   try {
-    const stored = await env.MUMUS_CONFIG.get<CaConfig>(CA_KEY, 'json');
+    const stored = await env.NAKO_CONFIG.get<CaConfig>(CA_KEY, 'json');
     if (stored && stored.contractAddress) {
       return stored;
     }
@@ -64,7 +64,7 @@ async function handleGraph(request: Request, env: Env): Promise<Response> {
   const sessionId =
     typeof body.sessionId === 'string' && body.sessionId.trim()
       ? body.sessionId.trim()
-      : `mumus-${crypto.randomUUID()}`;
+      : `nako-${crypto.randomUUID()}`;
 
   // Deterministic graph engine: always runs, provides baseline + fallback.
   const baseline = await executeAgentGraph(
@@ -73,24 +73,24 @@ async function handleGraph(request: Request, env: Env): Promise<Response> {
     (currentPosition as never) ?? null
   );
 
-  const positionsArr = (Array.isArray(positions) ? positions : []) as Parameters<typeof runMuseAgent>[2];
-  const currentPos = (currentPosition ?? null) as Parameters<typeof runMuseAgent>[3];
+  const positionsArr = (Array.isArray(positions) ? positions : []) as Parameters<typeof runKimiAgent>[2];
+  const currentPos = (currentPosition ?? null) as Parameters<typeof runKimiAgent>[3];
 
-  let invocation: Awaited<ReturnType<typeof runMuseAgent>> | null = null;
+  let invocation: Awaited<ReturnType<typeof runKimiAgent>> | null = null;
   let modelError: string | null = null;
   try {
-    invocation = await runMuseAgent(
+    invocation = await runKimiAgent(
       env,
       input,
       positionsArr,
       currentPos,
       sessionId,
-      baseline.intent as MuseIntent,
+      baseline.intent as KimiIntent,
       baseline.newPosition
     );
   } catch (err) {
     modelError = err instanceof Error ? err.message : String(err);
-    console.error(JSON.stringify({ message: 'Muse agent failed, using deterministic fallback', error: modelError }));
+    console.error(JSON.stringify({ message: 'Kimi agent failed, using deterministic fallback', error: modelError }));
   }
 
   if (!invocation) {
@@ -130,9 +130,9 @@ async function handleGraph(request: Request, env: Env): Promise<Response> {
 
   const graphTrace = {
     traceId: baseline.traceId,
-    executionPath: [...baseline.executionPath, `MuseAgent:${r.model}`],
+    executionPath: [...baseline.executionPath, `KimiAgent:${r.model}`],
     totalTimeMs: baseline.totalTimeMs + r.latencyMs,
-    nodeTimings: { ...baseline.nodeTimings, MuseAgent: r.latencyMs },
+    nodeTimings: { ...baseline.nodeTimings, KimiAgent: r.latencyMs },
     confidence: r.confidence
   };
 
@@ -165,9 +165,9 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
   if (pathname === '/api/health' && method === 'GET') {
     return json({
       status: 'ok',
-      engine: 'Mumus AI Journal Engine v3.0',
+      engine: 'Nako AI Journal Engine v3.0',
       aiProvider: 'opencode-go',
-      aiModel: env.AI_MODEL || 'muse-spark-1.3-contributor',
+      aiModel: env.AI_MODEL || 'kimi-k3.1-pro',
       aiConfigured: Boolean(env.OPENCODE_API_KEY),
       runtime: 'cloudflare-workers',
       timestamp: new Date().toISOString()
@@ -238,7 +238,7 @@ async function handleCaUpdate(request: Request, env: Env): Promise<Response> {
     updatedAt: new Date().toISOString()
   };
 
-  await env.MUMUS_CONFIG.put(CA_KEY, JSON.stringify(next));
+  await env.NAKO_CONFIG.put(CA_KEY, JSON.stringify(next));
 
   console.log(
     JSON.stringify({ message: 'CA updated', contractAddress: next.contractAddress, symbol: next.tokenSymbol })

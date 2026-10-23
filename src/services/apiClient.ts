@@ -24,18 +24,18 @@ export interface GraphApiResponse {
 
 function getAgentSessionId(): string {
   try {
-    const key = 'mumus_agent_session';
+    const key = 'nako_agent_session';
     let id = sessionStorage.getItem(key);
     if (!id) {
       id =
         typeof crypto !== 'undefined' && 'randomUUID' in crypto
           ? crypto.randomUUID()
-          : `mumus-${Date.now().toString(36)}`;
+          : `nako-${Date.now().toString(36)}`;
       sessionStorage.setItem(key, id);
     }
     return id;
   } catch {
-    return `mumus-${Date.now().toString(36)}`;
+    return `nako-${Date.now().toString(36)}`;
   }
 }
 

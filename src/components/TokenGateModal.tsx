@@ -10,7 +10,7 @@ interface TokenGateModalProps {
 
 /**
  * Light-mode token gate notice shown when a wallet without the required
- * $MUMUS holding tries to send a request in the journal.
+ * $NAKO holding tries to send a request in the journal.
  */
 export const TokenGateModal: React.FC<TokenGateModalProps> = ({ isOpen, onClose }) => {
   const {

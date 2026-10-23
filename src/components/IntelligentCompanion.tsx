@@ -92,7 +92,7 @@ export const IntelligentCompanion: React.FC<IntelligentCompanionProps> = ({
             isDark ? 'text-white/70' : 'text-slate-600'
           }`}
         >
-          True edge isn't clicking faster—it's mastering yourself. Mumus gives trenchers a quiet space to record every entry, dissect mistakes without guilt, and build the calm consistency required to survive and win.
+          True edge isn't clicking faster—it's mastering yourself. Nako gives trenchers a quiet space to record every entry, dissect mistakes without guilt, and build the calm consistency required to survive and win.
         </motion.p>
 
         {/* 4 Metrics in a horizontal row */}

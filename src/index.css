@@ -50,9 +50,9 @@
   font-family: 'JetBrains Mono', monospace;
 }
 
-/* Mumus clean numeral styling using normal Pretendard font */
-.font-mumus-num,
-.font-mumus-numbers {
+/* Nako clean numeral styling using normal Pretendard font */
+.font-nako-num,
+.font-nako-numbers {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
